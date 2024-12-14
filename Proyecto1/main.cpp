@@ -1,15 +1,21 @@
 #include "lib_globales.h"
 #include "matriz.h"
+#include "avl.h"
 
 int main(int argc, char const *argv[]){
 
     string LOG_usuario, LOG_password, LOG_departamento, LOG_empresa = "";
     string Nusuario, NnomCompleto, Npassword, Ndepartamento, Nempresa = "";
+    string N_id_activo, NnomActivo, NdescActivo = "";
+    int NdiasRenta = 0;
+    bool Ndisponible = false;
+
     char opS_N = ' ';
     short opMenuAdmin, opMenuUsu = 0;
     bool esADMIN = false;
 
     Matriz m;
+    AVL arbol_avl;
 
 while(true){
     //------------------------------- Iniciar Secion -------------------------------
@@ -139,8 +145,15 @@ while(true){
             case 1:
                 cout << "\n---------- >>> Agregar Activo <<< ----------\n";
                 //Se debe crear un ID del nuevo activo, de forma automatica y aleatoria.
-                cout << "Nombre (Usuario o Activo...?): ";
+                cout << "Nombre del Activo: ";
+                cin >> NnomActivo;
+                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
                 cout << "Descripcion: ";
+                cin >> NdescActivo;
+                cout << "Dias disponibles para rentar: ";
+                cin >> NdiasRenta;
+                Ndisponible = true;
+                //Se crea nuevo nodo del AVL
                 break;
 
             case 2:

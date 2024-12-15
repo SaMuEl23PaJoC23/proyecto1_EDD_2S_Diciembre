@@ -18,6 +18,17 @@ class Matriz{
         void insert(string i_dep, string j_empresa, string nomUsu, string password, string nomCompleto);
         bool existeNodo(Nodo *nuevo);
         void print();
+        void insertActivos(string i_dep, string j_empresa, string nomUsu, string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible);
+        void printActivos(string i_dep, string j_empresa, string nomUsu);
+        void printAVLUsu();
+        void eliminarActivo(string i_dep, string j_empresa, string nomUsu, string id_activo);
+        
+        //Datos que permiten buscar al USUARIO:
+        //(string i_dep, string j_empresa, string nomUsu) 
+
+        //Datos que se envian hacia AVL:
+        //(string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible);
+        
         
         void graphMatriz();
 };

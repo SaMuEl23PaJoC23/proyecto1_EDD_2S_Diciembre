@@ -1,5 +1,8 @@
 #include "lib_globales.h"
+#include "avl.h"//esto permite la coneccion entre estructuras
+
 class Nodo{
+
     private:
     string nomUsu, password, nomCompleto = "";
     string i_dep, j_empresa;
@@ -8,6 +11,7 @@ class Nodo{
     Nodo *arriba, *abajo;
     Nodo *izq, *dcha;
     Nodo *adelante, *atras;
+    AVL *arbol_AVL;//esto permite la coneccion entre estructuras
 
     public:
     Nodo(int i, int j, string i_dep, string j_empresa);//Nodo cabecera
@@ -42,4 +46,7 @@ class Nodo{
     Nodo* getDcha();
     Nodo* getAdelante();
     Nodo* getAtras();
+
+    //esto permite la coneccion entre estructuras
+    AVL* getAVL();
 };

@@ -25,6 +25,7 @@ Nodo::Nodo(int i, int j, string i_dep, string j_empresa, string nomUsu, string p
     this->dcha = nullptr;
     this->adelante = nullptr;
     this->atras = nullptr;
+    this->arbol_AVL = new AVL();
 }
 
 //Setter
@@ -131,4 +132,9 @@ Nodo* Nodo::getAdelante(){
 
 Nodo* Nodo::getAtras(){
     return atras;
+}
+
+//esto permite la coneccion entre estructuras
+AVL* Nodo::getAVL(){
+    return arbol_AVL;
 }

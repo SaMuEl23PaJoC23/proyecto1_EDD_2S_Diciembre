@@ -8,14 +8,10 @@ activo: Deben ordenarse ascendentemente en los nodos del AVL
  disponible(T,F)
 
 
-
-
 --> Convertir Departamento y Empresa a minusculas, para evitar confuciones por CaseSensitive
 --> Posible nombre de empresas con espacio en blanco
 ---------------------------
 !! Preguntar AUX:
---> Si el primer usuario guardado por (DEPARTAMENTO, EMPRESA) queda fijo al momento de agregar mas a la misma posicion 'dado que posee punteros: -delante- y -atras-'
-SE DEBE ACTUALIZAR, POR LO QUE EL NUEVO QUE ESTE ADELANTE, PASA A SER EL NUEVO NODO "cabecera" de su "lista"
 
 -->RENTA DE ACTIVOS<--
 
@@ -50,5 +46,26 @@ ale01 -> samuel2 -> pajoc33
 
 (3)        (1)         (2)
 sam123 -> linduqui -> netoo
+
+--------------------------------------------
+
+(1)Nombre Usuario: ale01
+Nombre Completo: alejandro
+Password: ale1
+Departamento: guatemala
+Empresa: wallmart
+
+(2)Nombre Usuario: pajoc33 (ahora adelante)
+Nombre Completo: pajoc samuel
+Password: 123
+Departamento: guatemala
+Empresa: wallmart
+
+
+ACTIVOS: (ale1)
+
+ACTIVOS: (pajoc33)
+
+
 
 */

@@ -1,0 +1,5 @@
+ digraph G{
+NodoAVL0x1b159d6d320[label = "extenciones"]
+NodoAVL0x1b159d6d320->NodoAVL0x1b159d6ce10
+NodoAVL0x1b159d6ce10[label = "prueba"]
+}

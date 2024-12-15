@@ -75,7 +75,7 @@ bool Matriz::existeNodo(Nodo *nuevo){
                             switch (PosNuevoNodo){
                                 case 1:{//Las llaves {} permiten que las variables inicializadas en su interior
                                     //Unicamente tengan este ambito (limitan su uso a este -case-) y evitar ERROR de compilacion
-                                    //!Observar bien el intercambio de arboles de ACTIVOS
+                                    
                                     //inserta ADELANTE
                                     if(columna->getAtras()==nullptr){//Si puntero ATRAS de nodo -primero- es nulo, insercion sencilla
                                         columna->setAtras(nuevo);
@@ -361,3 +361,87 @@ void Matriz::print(){
         auxfila1 = auxfila1->getAbajo();
     }
 }
+//-------------------------------------------------------------------
+void Matriz::insertActivos(string i_dep, string j_empresa, string nomUsu, string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible){
+    Nodo *encabezadoFila = this->raiz;
+    bool nomUsuExistente = true;
+
+    while(encabezadoFila != nullptr){
+        if(encabezadoFila->getJempresa() == j_empresa){
+            Nodo *columna = encabezadoFila;
+
+            while(columna != nullptr){
+                if(columna->getIdep() == i_dep){ //hasta aca, misma EMPRESA y DEPARTAMENTO
+
+                    Nodo * auxColumna = columna;
+                    while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el nombre de USUARIO existe
+                        if(auxColumna->getNomUsu() == nomUsu){
+                            auxColumna->getAVL()->insertarAVL(ID_activo, nomActivo, descActivo, diasParaRentar, disponible);
+                            return;
+                        }
+                        auxColumna = auxColumna->getAtras();
+                    }
+                }
+                columna = columna->getDcha();
+            }  
+        }
+        encabezadoFila = encabezadoFila->getAbajo();
+    }
+}
+//-------------------------------------------------------------------
+void Matriz::printActivos(string i_dep, string j_empresa, string nomUsu){
+    Nodo *encabezadoFila = this->raiz;
+    bool nomUsuExistente = true;
+
+    while(encabezadoFila != nullptr){
+        if(encabezadoFila->getJempresa() == j_empresa){
+            Nodo *columna = encabezadoFila;
+
+            while(columna != nullptr){
+                if(columna->getIdep() == i_dep){ //hasta aca, misma EMPRESA y DEPARTAMENTO
+
+                    Nodo * auxColumna = columna;
+                    while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el nombre de USUARIO existe
+                        if(auxColumna->getNomUsu() == nomUsu){
+                            auxColumna->getAVL()->PrintAVL();
+                            auxColumna->getAVL()->graphAVL();
+                            return;
+                        }
+                        auxColumna = auxColumna->getAtras();
+                    }
+                }
+                columna = columna->getDcha();
+            }  
+        }
+        encabezadoFila = encabezadoFila->getAbajo();
+    }
+}
+//-------------------------------------------------------------------
+void Matriz::eliminarActivo(string i_dep, string j_empresa, string nomUsu, string id_activo){
+    Nodo *encabezadoFila = this->raiz;
+    bool nomUsuExistente = true;
+
+    while(encabezadoFila != nullptr){
+        if(encabezadoFila->getJempresa() == j_empresa){
+            Nodo *columna = encabezadoFila;
+
+            while(columna != nullptr){
+                if(columna->getIdep() == i_dep){ //hasta aca, misma EMPRESA y DEPARTAMENTO
+
+                    Nodo * auxColumna = columna;
+                    while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el ID activo existe
+                        if(auxColumna->getNomUsu() == nomUsu){
+                            auxColumna->getAVL()->delNodoAVL(id_activo);
+                            return;
+                        }
+                        auxColumna = auxColumna->getAtras();
+                    }
+                }
+                columna = columna->getDcha();
+            }  
+        }
+        encabezadoFila = encabezadoFila->getAbajo();
+    }
+}
+
+

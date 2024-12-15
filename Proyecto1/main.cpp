@@ -7,7 +7,7 @@ int main(int argc, char const *argv[]){
     string Nusuario, NnomCompleto, Npassword, Ndepartamento, Nempresa = "";
     string N_id_activo, NnomActivo, NdescActivo = "";
     int NdiasRenta = 0;
-    string ID_eliminar = "";
+    string ID_eliminar, ID_editar = "";
     string tempID = "";
 
     char opS_N = ' ';
@@ -194,27 +194,35 @@ while(true){
                 cout <<"ID de Activo a Eliminar: ";
                 cin >> ID_eliminar;
                 cout << "\n-------------- > Eliminado < --------------\n";
-                m.eliminarActivo(LOG_departamento, LOG_empresa, LOG_usuario, ID_eliminar);
-                
+                m.eliminarActivo(LOG_departamento, LOG_empresa, LOG_usuario, ID_eliminar);                
                 break;
             
             case 3:
                 cout << "\n---------- >>> Editar Activo <<< ----------\n";
-                //Se debe mostrar en forma de lista el ID y Nombre de activos pertenecientes al USUARIO logeado, antes de ELIMINAR
+                //Se debe mostrar en forma de lista el ID y Nombre de activos pertenecientes al USUARIO logeado, antes de editar
+                m.printActivos(LOG_departamento, LOG_empresa, LOG_usuario);
+
                 cout <<"ID de Activo a Editar: ";
+                cin >> ID_editar;
+                if(m.ID_existente(LOG_departamento, LOG_empresa, LOG_usuario, ID_editar)){
+                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                    cout << "\"Nueva\" Descripcion: ";
+                    getline(cin, NdescActivo);
 
-                cout << "\n-------------- >! Editando !< --------------\n";
-                cout<<"Descripcion Nueva: ";
-
-                //Luego muestra datos del activo Modificado
-                //ID, NOMBRE, DESCRIPCION
+                    cout << "\n-------------- >! Editando !< --------------\n";
+                    //Luego muestra datos del activo Modificado
+                    //los datos se muestran dentro de la funcion -activosEditar-, dentro del metodo del AVL
+                    m.editActivo(LOG_departamento, LOG_empresa, LOG_usuario, ID_editar, NdescActivo);
+                    system("pause");
+                }
+                else{cout << "ID no existente...!"<<endl;;}
                 break;
 
-            case 4:
+            case 4://   OPCION 4 y 5, se manejan con la lista doble enlazada
                 //Renta de Activos
                 cout << "\n############ ( Catalogo de Activos ) ############\n";
                 //Muestra todos los activos DISPONIBLES
-                cout << "Rentar activo (s/n)?";
+                cout << "Rentar algun activo (s/n)?";
                 cin >> opS_N;
                 if(opS_N =='s' || opS_N == 'S'){
                     cout<<"ID Activo a Rentar: ";
@@ -230,7 +238,7 @@ while(true){
                 cout << "\n############ ( Activos Rentados ) ############\n";
                 //Muestra todos los activos RENTADOS si los hay
 
-                cout << "Devolver activo (s/n)?";
+                cout << "Devolver algun activo (s/n)?";
                 cin >> opS_N;
                 if(opS_N =='s' || opS_N == 'S'){
                     cout<<"ID Activo a devolver: ";

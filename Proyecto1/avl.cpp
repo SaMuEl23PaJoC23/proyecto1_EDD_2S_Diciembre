@@ -45,6 +45,14 @@ void AVL::PrintAVL(){
     printAVL(this->raizAVL);
 }
 //-------------------------------------------------------------------
+void AVL::activoEditar(string ID_activo, string NdescActivo){
+    activoEditar(this->raizAVL, ID_activo, NdescActivo);
+}
+//-------------------------------------------------------------------
+bool AVL::activoExistente(string ID_activo){
+    return (activoExistente(this->raizAVL, ID_activo, false));
+}
+//-------------------------------------------------------------------
 NodoAVL* AVL::insertarAVL(NodoAVL* raizAVL, string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible){
     if(raizAVL == nullptr){raizAVL = new NodoAVL(ID_activo, nomActivo, descActivo, diasParaRentar, disponible);}//si raiz es vacia, se le asigna un nodo 'nuevo'
     else if(ID_activo < raizAVL->getID_activo()){raizAVL->setIzqAVL(insertarAVL(raizAVL->getIzqAVL(), ID_activo, nomActivo, descActivo, diasParaRentar, disponible));}
@@ -215,4 +223,24 @@ void AVL::printAVL(NodoAVL* raizAVL){//Recorrido de acuerdo a estructura InOrden
         printAVL(raizAVL->getDrchaAVL());
     }
 }
+//-------------------------------------------------------------------
+void AVL::activoEditar(NodoAVL* raizAVL, string ID_activo, string NdescActivo){
+    if(ID_activo < raizAVL->getID_activo()){activoEditar(raizAVL->getIzqAVL(), ID_activo, NdescActivo);}
+    else if(ID_activo > raizAVL->getID_activo()){activoEditar(raizAVL->getDrchaAVL(), ID_activo, NdescActivo);}
+    else{
+        raizAVL->setDescActivo(NdescActivo);
+        cout<<"ID: " << raizAVL->getID_activo()<<endl;
+        cout<<"Nombre: " << raizAVL->getNomActivo()<<endl;
+        cout<<"Descripcion: " << raizAVL->getDescActivo()<<"\n\n";
+    }
+}
+//-------------------------------------------------------------------
+bool AVL::activoExistente(NodoAVL* raizAVL, string ID_activo, bool existente){
+    if (raizAVL == nullptr) return (false);
+    else if(ID_activo < raizAVL->getID_activo()){existente = activoExistente(raizAVL->getIzqAVL(), ID_activo, existente);}
+    else if(ID_activo > raizAVL->getID_activo()){existente = activoExistente(raizAVL->getDrchaAVL(), ID_activo, existente);}
+    else if (ID_activo == raizAVL->getID_activo())return (true);
+    return existente;
+}
+//-------------------------------------------------------------------
 

@@ -443,5 +443,58 @@ void Matriz::eliminarActivo(string i_dep, string j_empresa, string nomUsu, strin
         encabezadoFila = encabezadoFila->getAbajo();
     }
 }
+//-------------------------------------------------------------------
+void Matriz::editActivo(string i_dep, string j_empresa, string nomUsu, string id_activo, string NdescActivo){
+    Nodo *encabezadoFila = this->raiz;
+    bool nomUsuExistente = true;
 
+    while(encabezadoFila != nullptr){
+        if(encabezadoFila->getJempresa() == j_empresa){
+            Nodo *columna = encabezadoFila;
+
+            while(columna != nullptr){
+                if(columna->getIdep() == i_dep){ //hasta aca, misma EMPRESA y DEPARTAMENTO
+
+                    Nodo * auxColumna = columna;
+                    while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el nombre de USUARIO existe
+                        if(auxColumna->getNomUsu() == nomUsu){
+                            auxColumna->getAVL()->activoEditar(id_activo, NdescActivo);
+                            return;
+                        }
+                        auxColumna = auxColumna->getAtras();
+                    }
+                }
+                columna = columna->getDcha();
+            }  
+        }
+        encabezadoFila = encabezadoFila->getAbajo();
+    }
+}
+//-------------------------------------------------------------------
+bool Matriz::ID_existente(string i_dep, string j_empresa, string nomUsu, string id_activo){
+    Nodo *encabezadoFila = this->raiz;
+    bool nomUsuExistente = true;
+
+    while(encabezadoFila != nullptr){
+        if(encabezadoFila->getJempresa() == j_empresa){
+            Nodo *columna = encabezadoFila;
+
+            while(columna != nullptr){
+                if(columna->getIdep() == i_dep){ //hasta aca, misma EMPRESA y DEPARTAMENTO
+
+                    Nodo * auxColumna = columna;
+                    while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el nombre de USUARIO existe
+                        if(auxColumna->getNomUsu() == nomUsu){
+                            return (auxColumna->getAVL()->activoExistente(id_activo));
+                        }
+                        auxColumna = auxColumna->getAtras();
+                    }
+                }
+                columna = columna->getDcha();
+            }  
+        }
+        encabezadoFila = encabezadoFila->getAbajo();
+    }
+    return (false);
+}
 

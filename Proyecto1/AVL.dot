@@ -1,5 +1,7 @@
  digraph G{
-NodoAVL0x1b159d6d320[label = "extenciones"]
-NodoAVL0x1b159d6d320->NodoAVL0x1b159d6ce10
-NodoAVL0x1b159d6ce10[label = "prueba"]
+NodoAVL0x25c267fd260[label = "estantes"]
+NodoAVL0x25c267fd260->NodoAVL0x25c267fd140
+NodoAVL0x25c267fd260->NodoAVL0x25c267fc840
+NodoAVL0x25c267fd140[label = "sillas grandes"]
+NodoAVL0x25c267fc840[label = "mostradores"]
 }

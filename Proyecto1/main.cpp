@@ -1,5 +1,6 @@
 #include "lib_globales.h"
 #include "matriz.h"
+#include "circularDoble.h"
 
 int main(int argc, char const *argv[]){
 
@@ -8,13 +9,18 @@ int main(int argc, char const *argv[]){
     string N_id_activo, NnomActivo, NdescActivo = "";
     int NdiasRenta = 0;
     string ID_eliminar, ID_editar = "";
-    string tempID = "";
+    string Rent_departamento, Rent_empresa, Rent_nomUsu, RentID_activo, RentFecha = "";
+    int Rent_dias = 0;
+
+
+    string tempID, tempIDtransaccion = "";
 
     char opS_N = ' ';
     short opMenuAdmin, opMenuUsu = 0;
     bool esADMIN = false;
 
     Matriz m;
+    CircularDoble listaCircular;
 
     //>> datos quemados <<
     //USUARIOS
@@ -25,19 +31,19 @@ int main(int argc, char const *argv[]){
 
     //ACTIVOS
     //m.insertActivos(LOG_departamento, LOG_empresa, LOG_usuario, tempID, NnomActivo, NdescActivo, NdiasRenta, true);
-    m.insertActivos("guatemala", "pinulito", "ale01", "id131", "mesas pequenas", "mesas de 2 personas", 20, true);
-    m.insertActivos("guatemala", "pinulito", "ale01", "id1", "sillas", "sillas de jardin", 17, true);
-    m.insertActivos("guatemala", "pinulito", "ale01", "id13", "sombrillas", "sombrillas para mesa", 21, true);
-    m.insertActivos("guatemala", "pinulito", "ale01", "id132", "botes de basura", "botes grands", 22, true);
+    m.insertActivo("guatemala", "pinulito", "ale01", "id131", "mesas pequenas", "mesas de 2 personas", 20, true);
+    m.insertActivo("guatemala", "pinulito", "ale01", "id1", "sillas", "sillas de jardin", 17, true);
+    m.insertActivo("guatemala", "pinulito", "ale01", "id13", "sombrillas", "sombrillas para mesa", 21, true);
+    m.insertActivo("guatemala", "pinulito", "ale01", "id132", "botes de basura", "botes grands", 22, true);
 
-    m.insertActivos("peten", "max", "sam123", "id12", "sillas grandes", "sillas de oficina", 32, true);
-    m.insertActivos("peten", "max", "sam123", "id5", "mostradores", "mostradores redondos", 13, true);
-    m.insertActivos("peten", "max", "sam123", "id21", "estantes", "estantes de metal", 18, true);
+    m.insertActivo("peten", "max", "sam123", "id12", "sillas grandes", "sillas de oficina", 32, true);
+    m.insertActivo("peten", "max", "sam123", "id5", "mostradores", "mostradores redondos", 13, true);
+    m.insertActivo("peten", "max", "sam123", "id21", "estantes", "estantes de metal", 18, true);
     
 
-    m.insertActivos("jalapa", "wallmart", "linda12", "id122", "laptops", "ordenadores portatiles pequenos", 15, true);
-    m.insertActivos("jalapa", "wallmart", "linda12", "id100", "extenciones", "extenciones de 15 mt", 20, true);
-    m.insertActivos("jalapa", "wallmart", "linda12", "id150", "antenas", "antenas para trafico de datos", 34, true);
+    m.insertActivo("jalapa", "wallmart", "linda12", "id122", "laptops", "ordenadores portatiles pequenos", 15, true);
+    m.insertActivo("jalapa", "wallmart", "linda12", "id100", "extenciones", "extenciones de 15 mt", 20, true);
+    m.insertActivo("jalapa", "wallmart", "linda12", "id150", "antenas", "antenas para trafico de datos", 34, true);
 
 while(true){
     //------------------------------- Iniciar Secion -------------------------------
@@ -181,30 +187,32 @@ while(true){
                 cout << "temp ID:";
                 cin >> tempID;
 
-                //Se crea nuevo nodo del AVL
-                m.insertActivos(LOG_departamento, LOG_empresa, LOG_usuario, tempID, NnomActivo, NdescActivo, NdiasRenta, true);
+                //Se crea nuevo nodo de AVL
+                m.insertActivo(LOG_departamento, LOG_empresa, LOG_usuario, tempID, NnomActivo, NdescActivo, NdiasRenta, true);
                 //insertarAVL(string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible)
                 break;
 
             case 2:
                 cout << "\n---------- >>> Eliminar Activo <<< ----------\n";
-                //Se debe mostrar en forma de lista el ID y Nombre de activos pertenecientes al USUARIO logeado, antes de ELIMINAR
+                //Muestra en lista ID y Nombre de activos pertenecientes a USUARIO logeado, antes de ELIMINAR
                 m.printActivos(LOG_departamento, LOG_empresa, LOG_usuario);
 
                 cout <<"ID de Activo a Eliminar: ";
                 cin >> ID_eliminar;
-                cout << "\n-------------- > Eliminado < --------------\n";
-                m.eliminarActivo(LOG_departamento, LOG_empresa, LOG_usuario, ID_eliminar);                
+                if(m.ID_existente(LOG_departamento, LOG_empresa, LOG_usuario, ID_eliminar, "ELIMINAR")){
+                    cout << "\n-------------- > Eliminado < --------------\n";
+                    m.eliminarActivo(LOG_departamento, LOG_empresa, LOG_usuario, ID_eliminar);
+                }                
                 break;
             
             case 3:
                 cout << "\n---------- >>> Editar Activo <<< ----------\n";
-                //Se debe mostrar en forma de lista el ID y Nombre de activos pertenecientes al USUARIO logeado, antes de editar
+                //Muestra lista: ID y Nombre de activos pertenecientes USUARIO logeado, antes de EDITAR
                 m.printActivos(LOG_departamento, LOG_empresa, LOG_usuario);
 
                 cout <<"ID de Activo a Editar: ";
                 cin >> ID_editar;
-                if(m.ID_existente(LOG_departamento, LOG_empresa, LOG_usuario, ID_editar)){
+                if(m.ID_existente(LOG_departamento, LOG_empresa, LOG_usuario, ID_editar, "EDITAR")){
                     cin.ignore(numeric_limits<streamsize>::max(),'\n');
                     cout << "\"Nueva\" Descripcion: ";
                     getline(cin, NdescActivo);
@@ -215,22 +223,46 @@ while(true){
                     m.editActivo(LOG_departamento, LOG_empresa, LOG_usuario, ID_editar, NdescActivo);
                     system("pause");
                 }
-                else{cout << "ID no existente...!"<<endl;;}
                 break;
 
-            case 4://   OPCION 4 y 5, se manejan con la lista doble enlazada
+            case 4:
                 //Renta de Activos
                 cout << "\n############ ( Catalogo de Activos ) ############\n";
                 //Muestra todos los activos DISPONIBLES
+                m.printActivosMatriz(LOG_departamento, LOG_empresa, LOG_usuario);//Datos para excluir al USUARIO y mostrar el resto de activos
+                
                 cout << "Rentar algun activo (s/n)?";
                 cin >> opS_N;
                 if(opS_N =='s' || opS_N == 'S'){
+                    //string Rent_departamento, Rent_empresa, Rent_nomUsu, RentID_activo = "";
                     cout<<"ID Activo a Rentar: ";
-                    //Muestra datos del activo a Rentar
-                    //ID, NOMBRE, DESCRIPCION
+                    cin >> RentID_activo;
+                    cout<<"--->>> Para agilizar el proceso, se le pediran datos extra\n";
+                    system("pause");
+                    cout<<"\nUsuario (owner): ";
+                    cin >> Rent_nomUsu;
+                    cout<<"Departamento (owner): ";
+                    cin >> Rent_departamento;
+                    cout<<"Empresa (owner): ";
+                    cin >> Rent_empresa;
+                    if(m.ID_existente(Rent_departamento, Rent_empresa, Rent_nomUsu, RentID_activo, "RENTAR")){//Se verifica que los datos sea correctos
+                        cout<<"Dias por Rentar: ";
+                        cin >> Rent_dias;
 
-                    cout<<"Dias por Rentar: ";
+                        if(m.rentarActivo(Rent_departamento, Rent_empresa, Rent_nomUsu, RentID_activo, Rent_dias)){
+                            //Muestra datos del activo a Rentar
+                            //ID, NOMBRE, DESCRIPCION
+
+                            cout<<"Fecha: ";
+                            cin >> RentFecha;
+                            //ID_TRANSACCION debe generarse automatico
+                            //se agrega TRANSACCION a lista DOBLE
+                            listaCircular.append(tempIDtransaccion, RentID_activo, LOG_usuario, LOG_departamento, LOG_empresa, RentFecha, Rent_dias);
+                        }
+                        system("pause");
+                    }
                 }
+                else{cout<<"No se encontro, en matriz dispersa...\n";}
                 break;
 
             case 5:

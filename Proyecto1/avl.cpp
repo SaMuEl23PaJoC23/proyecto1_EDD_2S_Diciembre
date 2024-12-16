@@ -45,14 +45,22 @@ void AVL::PrintAVL(){
     printAVL(this->raizAVL);
 }
 //-------------------------------------------------------------------
+void AVL::PrintAVLNoRentados(){
+    printAVLNoRentados(this->raizAVL);
+}
+//-------------------------------------------------------------------
 void AVL::activoEditar(string ID_activo, string NdescActivo){
     activoEditar(this->raizAVL, ID_activo, NdescActivo);
 }
 //-------------------------------------------------------------------
-bool AVL::activoExistente(string ID_activo){
-    return (activoExistente(this->raizAVL, ID_activo, false));
+bool AVL::activoExistente(string ID_activo, string Operacion){
+    return (activoExistente(this->raizAVL, ID_activo, Operacion, false));
 }
 //-------------------------------------------------------------------
+bool AVL::rentarActivo(string ID_activo, int diasParaRentar){
+    return (rentarActivo(this->raizAVL, ID_activo, diasParaRentar, false));
+}
+//-------------------**********************--------------------------
 NodoAVL* AVL::insertarAVL(NodoAVL* raizAVL, string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible){
     if(raizAVL == nullptr){raizAVL = new NodoAVL(ID_activo, nomActivo, descActivo, diasParaRentar, disponible);}//si raiz es vacia, se le asigna un nodo 'nuevo'
     else if(ID_activo < raizAVL->getID_activo()){raizAVL->setIzqAVL(insertarAVL(raizAVL->getIzqAVL(), ID_activo, nomActivo, descActivo, diasParaRentar, disponible));}
@@ -134,6 +142,11 @@ NodoAVL* AVL::delNodoAVL(NodoAVL* raizAVL, string ID_activo){
     else if(ID_activo < raizAVL->getID_activo()){raizAVL->setIzqAVL(delNodoAVL(raizAVL->getIzqAVL(), ID_activo));}
     else if(ID_activo > raizAVL->getID_activo()){raizAVL->setDrchaAVL(delNodoAVL(raizAVL->getDrchaAVL(), ID_activo));}
     else{
+        //muestra datos antes de ser eliminados
+        cout << "ID: " << raizAVL->getID_activo() << endl;
+        cout << "Nombre Activo: " << raizAVL->getNomActivo() << endl;
+        cout << "Descripcion: " << raizAVL->getDescActivo() << endl;
+
         if(raizAVL->esHoja()){
             delete raizAVL;// raizAVL al ser del tipo NodoAVL, se elimina un nodoAVL
             raizAVL = nullptr;
@@ -142,11 +155,6 @@ NodoAVL* AVL::delNodoAVL(NodoAVL* raizAVL, string ID_activo){
             raizAVL = raizAVL->getHijoUnico();
 
         }else if (raizAVL->tieneDosHijos()){
-            //muestra datos antes de ser eliminados
-            cout << "ID: " << raizAVL->getID_activo() << endl;
-            cout << "Nombre Activo: " << raizAVL->getNomActivo() << endl;
-            cout << "Descripcion: " << raizAVL->getDescActivo() << endl;
-
             NodoAVL *temp = getMayorDeMenores(raizAVL->getIzqAVL());
             //Se intercambian datos entre el nodo RAIZ a eliminar y el nodo Mayor de menores
             raizAVL->setID_activo(temp->getID_activo());
@@ -215,11 +223,23 @@ void AVL::graphAVL(NodoAVL* raizAVL, ofstream &f){
     }
 }
 //-------------------------------------------------------------------
-void AVL::printAVL(NodoAVL* raizAVL){//Recorrido de acuerdo a estructura InOrden
+void AVL::printAVL(NodoAVL* raizAVL){//Recorrido de acuerdo a estructura InOrden, datos de un solo usuario
     if(raizAVL != nullptr){
         printAVL(raizAVL->getIzqAVL());
         cout<<"ID: " << raizAVL->getID_activo()<<";  ";
         cout<<"Nombre: " << raizAVL->getNomActivo()<<endl;
+        printAVL(raizAVL->getDrchaAVL());
+    }
+}
+//-------------------------------------------------------------------
+void AVL::printAVLNoRentados(NodoAVL* raizAVL){//Recorrido de acuerdo a estructura InOrden
+    if(raizAVL != nullptr){
+        printAVL(raizAVL->getIzqAVL());
+        if(raizAVL->getDisponible() == true){
+            cout<<"ID: " << raizAVL->getID_activo()<<";  ";
+            cout<<"Nombre: " << raizAVL->getNomActivo()<<"; ";
+            cout<<"Tiempo de renta: " << raizAVL->getDiasParaRentar()<<endl;
+        }
         printAVL(raizAVL->getDrchaAVL());
     }
 }
@@ -235,12 +255,42 @@ void AVL::activoEditar(NodoAVL* raizAVL, string ID_activo, string NdescActivo){
     }
 }
 //-------------------------------------------------------------------
-bool AVL::activoExistente(NodoAVL* raizAVL, string ID_activo, bool existente){
-    if (raizAVL == nullptr) return (false);
-    else if(ID_activo < raizAVL->getID_activo()){existente = activoExistente(raizAVL->getIzqAVL(), ID_activo, existente);}
-    else if(ID_activo > raizAVL->getID_activo()){existente = activoExistente(raizAVL->getDrchaAVL(), ID_activo, existente);}
-    else if (ID_activo == raizAVL->getID_activo())return (true);
+bool AVL::activoExistente(NodoAVL* raizAVL, string ID_activo, string Operacion ,bool existente){
+    if (raizAVL == nullptr){
+        cout << "\nID no existente...!"<<endl;
+        return (false);
+    } 
+    else if(ID_activo < raizAVL->getID_activo()){existente = activoExistente(raizAVL->getIzqAVL(), ID_activo, Operacion, existente);}
+    else if(ID_activo > raizAVL->getID_activo()){existente = activoExistente(raizAVL->getDrchaAVL(), ID_activo, Operacion, existente);}
+    else{
+        if(Operacion == "ELIMINAR"){
+            if(raizAVL->getDisponible()){
+                return (true);
+            }
+            cout<<"Deben devolver Activo primero...\n";
+            return false;
+        }
+        else{return (true);}
+    } 
     return existente;
 }
 //-------------------------------------------------------------------
-
+bool AVL::rentarActivo(NodoAVL* raizAVL, string ID_activo, int diasParaRentar, bool OPvalida){
+    if(ID_activo < raizAVL->getID_activo()){ OPvalida = rentarActivo(raizAVL->getIzqAVL(), ID_activo, diasParaRentar, OPvalida);}
+    else if(ID_activo > raizAVL->getID_activo()){OPvalida = rentarActivo(raizAVL->getDrchaAVL(), ID_activo, diasParaRentar, OPvalida);}
+    else{
+        if(raizAVL->getDisponible()){
+            if(diasParaRentar <= raizAVL->getDiasParaRentar()){
+                cout<<"\n>> Activo Rentado <<\n";
+                cout<<"ID: " << raizAVL->getID_activo()<<endl;
+                cout<<"Nombre: " << raizAVL->getNomActivo()<<endl;
+                cout<<"Descripcion: " << raizAVL->getDescActivo()<<"\n\n";
+                raizAVL->setDisponible(false);
+                return true;
+            }
+            else{cout<<"\nDias ingresados no permiten rentar activo...\n";}
+        }
+        else{cout<<"\nActivo Ya rentado...!!\n";}
+    }
+    return OPvalida;
+}

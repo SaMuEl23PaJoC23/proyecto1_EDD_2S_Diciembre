@@ -68,4 +68,13 @@ ACTIVOS: (pajoc33)
 
 
 
+estructura dot LISTA CIRCULAR (unicamente el nodo con datos)
+nodo1 [label=< 
+    <table border="0" cellborder="1" cellspacing="0">
+        <tr><td>Nombre</td></tr> 
+        <tr><td>Edad</td></tr> 
+        <tr><td>Correo</td></tr>
+        </table> 
+    >];
+
 */

@@ -20,8 +20,10 @@ class AVL{
         void postOrden(NodoAVL* raizAVL);//Se utiliza para que el destructor recorra todos los nodos
         void graphAVL(NodoAVL* raizAVL, ofstream &f);
         void printAVL(NodoAVL* raizAVL);
+        void printAVLNoRentados(NodoAVL* raizAVL);
+        bool rentarActivo(NodoAVL* raizAVL, string ID_activo, int diasParaRentar, bool OPvalida);
         void activoEditar(NodoAVL* raizAVL, string ID_activo, string NdescActivo);
-        bool activoExistente(NodoAVL* raizAVL, string ID_activo, bool existente);
+        bool activoExistente(NodoAVL* raizAVL, string ID_activo, string Operacion, bool existente);
         NodoAVL* delNodoAVL(NodoAVL* raizAVL, string ID_activo);
 
     public:
@@ -33,7 +35,9 @@ class AVL{
 
         void graphAVL();
         void PrintAVL();
+        void PrintAVLNoRentados();
+        bool rentarActivo(string ID_activo, int diasParaRentar);
         void activoEditar(string ID_activo, string NdescActivo);
-        bool activoExistente(string ID_activo);
+        bool activoExistente(string ID_activo, string Operacion);
         void delNodoAVL(string ID_activo);
 };

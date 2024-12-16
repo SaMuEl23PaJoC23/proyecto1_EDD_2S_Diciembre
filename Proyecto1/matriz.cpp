@@ -362,9 +362,8 @@ void Matriz::print(){
     }
 }
 //-------------------------------------------------------------------
-void Matriz::insertActivos(string i_dep, string j_empresa, string nomUsu, string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible){
+void Matriz::insertActivo(string i_dep, string j_empresa, string nomUsu, string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible){
     Nodo *encabezadoFila = this->raiz;
-    bool nomUsuExistente = true;
 
     while(encabezadoFila != nullptr){
         if(encabezadoFila->getJempresa() == j_empresa){
@@ -391,7 +390,6 @@ void Matriz::insertActivos(string i_dep, string j_empresa, string nomUsu, string
 //-------------------------------------------------------------------
 void Matriz::printActivos(string i_dep, string j_empresa, string nomUsu){
     Nodo *encabezadoFila = this->raiz;
-    bool nomUsuExistente = true;
 
     while(encabezadoFila != nullptr){
         if(encabezadoFila->getJempresa() == j_empresa){
@@ -419,7 +417,6 @@ void Matriz::printActivos(string i_dep, string j_empresa, string nomUsu){
 //-------------------------------------------------------------------
 void Matriz::eliminarActivo(string i_dep, string j_empresa, string nomUsu, string id_activo){
     Nodo *encabezadoFila = this->raiz;
-    bool nomUsuExistente = true;
 
     while(encabezadoFila != nullptr){
         if(encabezadoFila->getJempresa() == j_empresa){
@@ -446,7 +443,6 @@ void Matriz::eliminarActivo(string i_dep, string j_empresa, string nomUsu, strin
 //-------------------------------------------------------------------
 void Matriz::editActivo(string i_dep, string j_empresa, string nomUsu, string id_activo, string NdescActivo){
     Nodo *encabezadoFila = this->raiz;
-    bool nomUsuExistente = true;
 
     while(encabezadoFila != nullptr){
         if(encabezadoFila->getJempresa() == j_empresa){
@@ -471,9 +467,8 @@ void Matriz::editActivo(string i_dep, string j_empresa, string nomUsu, string id
     }
 }
 //-------------------------------------------------------------------
-bool Matriz::ID_existente(string i_dep, string j_empresa, string nomUsu, string id_activo){
+bool Matriz::ID_existente(string i_dep, string j_empresa, string nomUsu, string id_activo, string Operacion){
     Nodo *encabezadoFila = this->raiz;
-    bool nomUsuExistente = true;
 
     while(encabezadoFila != nullptr){
         if(encabezadoFila->getJempresa() == j_empresa){
@@ -485,7 +480,7 @@ bool Matriz::ID_existente(string i_dep, string j_empresa, string nomUsu, string 
                     Nodo * auxColumna = columna;
                     while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el nombre de USUARIO existe
                         if(auxColumna->getNomUsu() == nomUsu){
-                            return (auxColumna->getAVL()->activoExistente(id_activo));
+                            return (auxColumna->getAVL()->activoExistente(id_activo, Operacion));
                         }
                         auxColumna = auxColumna->getAtras();
                     }
@@ -497,4 +492,51 @@ bool Matriz::ID_existente(string i_dep, string j_empresa, string nomUsu, string 
     }
     return (false);
 }
+//-------------------------------------------------------------------
+void Matriz::printActivosMatriz(string i_dep, string j_empresa, string nomUsu){
+    Nodo *encabezadoFila = this->raiz->getAbajo();
+    while(encabezadoFila != nullptr){
+        Nodo *columna = encabezadoFila->getDcha();
+        while(columna != nullptr){
+            Nodo * auxColumna = columna;
+            while (auxColumna != nullptr){//Se recorrera la lista con USUARIOS hacia atras
+                if(auxColumna->getIdep() != i_dep && auxColumna->getJempresa() != j_empresa && auxColumna->getNomUsu() != nomUsu){
+                    auxColumna->getAVL()->PrintAVLNoRentados();
+                }
+                auxColumna = auxColumna->getAtras();
+            }
+            columna = columna->getDcha();
+        }  
+        encabezadoFila = encabezadoFila->getAbajo();
+    }
+}
+//-------------------------------------------------------------------
+bool Matriz::rentarActivo(string i_dep, string j_empresa, string nomUsu, string id_activo, int diasParaRentar){
+    Nodo *encabezadoFila = this->raiz;
+
+    while(encabezadoFila != nullptr){
+        if(encabezadoFila->getJempresa() == j_empresa){
+            Nodo *columna = encabezadoFila;
+
+            while(columna != nullptr){
+                if(columna->getIdep() == i_dep){ //hasta aca, misma EMPRESA y DEPARTAMENTO
+
+                    Nodo * auxColumna = columna;
+                    while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el nombre de USUARIO existe
+                        if(auxColumna->getNomUsu() == nomUsu){
+                            return (auxColumna->getAVL()->rentarActivo(id_activo, diasParaRentar));
+                        }
+                        auxColumna = auxColumna->getAtras();
+                    }
+                }
+                columna = columna->getDcha();
+            }  
+        }
+        encabezadoFila = encabezadoFila->getAbajo();
+    }
+
+    return false;
+}
+
+
 

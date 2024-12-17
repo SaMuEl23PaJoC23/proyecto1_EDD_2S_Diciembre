@@ -17,6 +17,7 @@ class Matriz{
 
         void insert(string i_dep, string j_empresa, string nomUsu, string password, string nomCompleto);
         bool existeNodo(Nodo *nuevo);
+        bool usuExistente(string i_dep, string j_empresa, string nomUsu, string password);
         void print();
         void insertActivo(string i_dep, string j_empresa, string nomUsu, string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible);
         void printActivos(string i_dep, string j_empresa, string nomUsu);

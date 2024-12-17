@@ -145,7 +145,7 @@ bool Matriz::existeNodo(Nodo *nuevo){
                     }
                     else{//Cuando tiene mismo nombre de usuario
                         delete nuevo;//Elimina el Nodo nuevo, dado que YA existe
-                        cout<<"\nUsuario Ya existente...!\n";
+                        cout<<"\nNombre Usuario Ya existente...!\n";
                         system("pause");
                     }
                     return true;//para no insertar nuevo nodo en Area de MATRIZ
@@ -344,7 +344,7 @@ void Matriz::graphMatriz(){
     else{cout << "Ejecucion del comando fallida..." << returnCode << endl;}
 }
 //-------------------------------------------------------------------
-void Matriz::print(){
+void Matriz::print(){//Imprime a TODOS los usuarios registrados, se utilizo antes de poder visualizar datos en graphviz (!! SIN USO !!)
     Nodo *auxfila1 = raiz->getAbajo();
     while (auxfila1 != nullptr){
         Nodo *auxColumna = auxfila1->getDcha();
@@ -467,6 +467,36 @@ void Matriz::editActivo(string i_dep, string j_empresa, string nomUsu, string id
     }
 }
 //-------------------------------------------------------------------
+bool Matriz::usuExistente(string i_dep, string j_empresa, string nomUsu, string password){
+    Nodo *encabezadoFila = this->raiz;
+
+    while(encabezadoFila != nullptr){
+        if(encabezadoFila->getJempresa() == j_empresa){
+            Nodo *columna = encabezadoFila;
+
+            while(columna != nullptr){
+                if(columna->getIdep() == i_dep){ //hasta aca, misma EMPRESA y DEPARTAMENTO
+
+                    Nodo * auxColumna = columna;
+                    while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el nombre de USUARIO existe
+                        if(auxColumna->getNomUsu() == nomUsu){
+                            if(auxColumna->getPassword() == password){
+                                return (true);
+                            }
+                            return (false);//Dado que password no es la misma y se detiene recorrido, porque no puede existir 2 o mas usuarios con el mismo nomUsu en misma departamento-empresa
+                            
+                        }
+                        auxColumna = auxColumna->getAtras();
+                    }
+                }
+                columna = columna->getDcha();
+            }  
+        }
+        encabezadoFila = encabezadoFila->getAbajo();
+    }
+    return (false);
+}
+//-------------------------------------------------------------------
 bool Matriz::ID_existente(string i_dep, string j_empresa, string nomUsu, string id_activo, string Operacion){
     Nodo *encabezadoFila = this->raiz;
 
@@ -537,6 +567,4 @@ bool Matriz::rentarActivo(string i_dep, string j_empresa, string nomUsu, string 
 
     return false;
 }
-
-
 

@@ -1,5 +1,6 @@
 /*
 
+
 activo: Deben ordenarse ascendentemente en los nodos del AVL
  ID, generado aleatoriamente
  Nombre
@@ -8,6 +9,7 @@ activo: Deben ordenarse ascendentemente en los nodos del AVL
  disponible(T,F)
 
 
+--> validar que para editar activo, existan al menos 1
 --> Convertir Departamento y Empresa a minusculas, para evitar confuciones por CaseSensitive
 --> Posible nombre de empresas con espacio en blanco
 ---------------------------

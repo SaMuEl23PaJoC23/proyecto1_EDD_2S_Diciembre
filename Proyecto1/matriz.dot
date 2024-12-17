@@ -15,7 +15,7 @@ Nodo1_0->Nodo2_0[dir = back]
 Nodo1_0->Nodo1_1
 Nodo1_0->Nodo1_1[dir = back] 
 
-Nodo2_0[label = "peten", group = "2"]
+Nodo2_0[label = "jutiapa", group = "2"]
 Nodo2_0->Nodo3_0
 Nodo2_0->Nodo3_0[dir = back] 
 
@@ -23,40 +23,122 @@ Nodo2_0->Nodo2_2
 Nodo2_0->Nodo2_2[dir = back] 
 
 Nodo3_0[label = "jalapa", group = "3"]
+Nodo3_0->Nodo4_0
+Nodo3_0->Nodo4_0[dir = back] 
+
 Nodo3_0->Nodo3_3
 Nodo3_0->Nodo3_3[dir = back] 
 
-{rank=same;Nodo0_0;Nodo1_0;Nodo2_0;Nodo3_0}
+Nodo4_0[label = "peten", group = "4"]
+Nodo4_0->Nodo5_0
+Nodo4_0->Nodo5_0[dir = back] 
+
+Nodo4_0->Nodo4_3
+Nodo4_0->Nodo4_3[dir = back] 
+
+Nodo5_0[label = "Zacapa", group = "5"]
+Nodo5_0->Nodo6_0
+Nodo5_0->Nodo6_0[dir = back] 
+
+Nodo5_0->Nodo5_5
+Nodo5_0->Nodo5_5[dir = back] 
+
+Nodo6_0[label = "totonicapan", group = "6"]
+Nodo6_0->Nodo6_1
+Nodo6_0->Nodo6_1[dir = back] 
+
+{rank=same;Nodo0_0;Nodo1_0;Nodo2_0;Nodo3_0;Nodo4_0;Nodo5_0;Nodo6_0}
 
 
-Nodo0_1[label = "pinulito", group = "0"]
+Nodo0_1[label = "igss", group = "0"]
 Nodo0_1->Nodo1_1
 Nodo0_1->Nodo1_1[dir = back] 
 
 Nodo0_1->Nodo0_2
 Nodo0_1->Nodo0_2[dir = back] 
 
-Nodo1_1[label = "ale01", group = "1"]
-{rank=same;Nodo0_1;Nodo1_1}
+Nodo1_1[label = "elian_estrada", group = "1"]
+Nodo1_1->Nodo6_1
+Nodo1_1->Nodo6_1[dir = back] 
+
+Nodo1_1->Nodo1_2
+Nodo1_1->Nodo1_2[dir = back] 
+
+Nodo6_1[label = "alcachofa", group = "6"]
+{rank=same;Nodo0_1;Nodo1_1;Nodo6_1}
 
 
 Nodo0_2[label = "max", group = "0"]
-Nodo0_2->Nodo2_2
-Nodo0_2->Nodo2_2[dir = back] 
+Nodo0_2->Nodo1_2
+Nodo0_2->Nodo1_2[dir = back] 
 
 Nodo0_2->Nodo0_3
 Nodo0_2->Nodo0_3[dir = back] 
 
-Nodo2_2[label = "prueba1", group = "2"]
-{rank=same;Nodo0_2;Nodo2_2}
+Nodo1_2[label = "casimiro", group = "1"]
+Nodo1_2->Nodo2_2
+Nodo1_2->Nodo2_2[dir = back] 
+
+Nodo1_2->Nodo1_3
+Nodo1_2->Nodo1_3[dir = back] 
+
+Nodo2_2[label = "juanito", group = "2"]
+Nodo2_2->Nodo2_3
+Nodo2_2->Nodo2_3[dir = back] 
+
+{rank=same;Nodo0_2;Nodo1_2;Nodo2_2}
 
 
-Nodo0_3[label = "wallmart", group = "0"]
-Nodo0_3->Nodo3_3
-Nodo0_3->Nodo3_3[dir = back] 
+Nodo0_3[label = "usac", group = "0"]
+Nodo0_3->Nodo1_3
+Nodo0_3->Nodo1_3[dir = back] 
 
-Nodo3_3[label = "prueba2", group = "3"]
-{rank=same;Nodo0_3;Nodo3_3}
+Nodo0_3->Nodo0_4
+Nodo0_3->Nodo0_4[dir = back] 
+
+Nodo1_3[label = "juanma", group = "1"]
+Nodo1_3->Nodo2_3
+Nodo1_3->Nodo2_3[dir = back] 
+
+Nodo2_3[label = "azurdia", group = "2"]
+Nodo2_3->Nodo3_3
+Nodo2_3->Nodo3_3[dir = back] 
+
+Nodo2_3->Nodo2_4
+Nodo2_3->Nodo2_4[dir = back] 
+
+Nodo3_3[label = "pedrito", group = "3"]
+Nodo3_3->Nodo4_3
+Nodo3_3->Nodo4_3[dir = back] 
+
+Nodo4_3[label = "ale01", group = "4"]
+Nodo4_3->Nodo4_4
+Nodo4_3->Nodo4_4[dir = back] 
+
+{rank=same;Nodo0_3;Nodo1_3;Nodo2_3;Nodo3_3;Nodo4_3}
+
+
+Nodo0_4[label = "cinepolis", group = "0"]
+Nodo0_4->Nodo2_4
+Nodo0_4->Nodo2_4[dir = back] 
+
+Nodo0_4->Nodo0_5
+Nodo0_4->Nodo0_5[dir = back] 
+
+Nodo2_4[label = "fuego03", group = "2"]
+Nodo2_4->Nodo4_4
+Nodo2_4->Nodo4_4[dir = back] 
+
+Nodo4_4[label = "mafer", group = "4"]
+{rank=same;Nodo0_4;Nodo2_4;Nodo4_4}
+
+
+Nodo0_5[label = "iggs", group = "0"]
+Nodo0_5->Nodo5_5
+Nodo0_5->Nodo5_5[dir = back] 
+
+Nodo5_5[label = "incrediboy", group = "5"]
+{rank=same;Nodo0_5;Nodo5_5}
 
 
 }

@@ -20,7 +20,7 @@ class Matriz{
         bool usuExistente(string i_dep, string j_empresa, string nomUsu, string password);
         void print();
         void insertActivo(string i_dep, string j_empresa, string nomUsu, string ID_activo, string nomActivo, string descActivo, int diasParaRentar, bool disponible);
-        void printActivos(string i_dep, string j_empresa, string nomUsu);
+        void printActivos(string i_dep, string j_empresa, string nomUsu, string graph_print);
         void editActivo(string i_dep, string j_empresa, string nomUsu, string id_activo, string NdescActivo);
         bool ID_existente(string i_dep, string j_empresa, string nomUsu, string id_activo, string Operacion);
         void eliminarActivo(string i_dep, string j_empresa, string nomUsu, string id_activo);

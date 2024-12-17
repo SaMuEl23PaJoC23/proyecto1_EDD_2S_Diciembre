@@ -1,5 +1,9 @@
- digraph G{
-NodoAVL0x23e011f5e30[label = "laptops"]
-NodoAVL0x23e011f5e30->NodoAVL0x23e011f5410
-NodoAVL0x23e011f5410[label = "extenciones"]
+ digraph AVLTree{
+root [shape=box, label="mafer"];
+root->NodoAVL0x18f2451e820;
+NodoAVL0x18f2451e820[shape=circle, label = "laptops", style=filled, fillcolor=lightgreen, width=1.0, height=1.0, fixedsize=true];
+NodoAVL0x18f2451e820->NodoAVL0x18f2451e550;
+NodoAVL0x18f2451e820->NodoAVL0x18f2451e9d0;
+NodoAVL0x18f2451e550[shape=circle, label = "extenciones", style=filled, fillcolor=lightgreen, width=1.0, height=1.0, fixedsize=true];
+NodoAVL0x18f2451e9d0[shape=circle, label = "antenas", style=filled, fillcolor=lightgreen, width=1.0, height=1.0, fixedsize=true];
 }

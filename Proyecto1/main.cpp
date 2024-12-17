@@ -2,6 +2,7 @@
 #include "matriz.h"
 #include "circularDoble.h"
 #include "idAleatorio.cpp"
+#include <cstdlib>//para poder abrir imagenes y pdf's desde el navegador
 
 int main(int argc, char const *argv[]){
 
@@ -18,9 +19,12 @@ int main(int argc, char const *argv[]){
     short opMenuAdmin, opMenuUsu = 0;
     bool esADMIN = false;
 
+    string depRepo, empresaRepo, nomUsuRepo= "";
+
     Matriz m;
     idAleatorio id;
     CircularDoble listaCircular;
+    const char* command01;
 
     //USUARIOS
     //m.insert(Ndepartamento, Nempresa, Nusuario, Npassword, NnomCompleto);
@@ -39,7 +43,7 @@ int main(int argc, char const *argv[]){
     //m.insertActivos(LOG_departamento, LOG_empresa, LOG_usuario, tempID, NnomActivo, NdescActivo, NdiasRenta, true);
     m.insertActivo("guatemala", "igss", "elian_estrada", id.ID_random(), "mesas pequenas", "mesas de 2 personas", 20, true);
     m.insertActivo("guatemala", "igss", "elian_estrada", id.ID_random(), "sillas", "sillas de jardin", 17, true);
-    m.insertActivo("guatemala", "igss", "elian_estrada", id.ID_random(), "sombrillas", "sombrillas para mesa", 21, true);
+    m.insertActivo("guatemala", "igss", "elian_estrada", id.ID_random(), "sombrillas", "sombrillas para mesa", 21, false);
     m.insertActivo("guatemala", "igss", "elian_estrada", id.ID_random(), "botes de basura", "botes grands", 22, true);
 
     m.insertActivo("jalapa", "usac", "pedrito", id.ID_random(), "sillas grandes", "sillas de oficina", 32, true);
@@ -82,9 +86,9 @@ while(true){
             cout << "  2. Reporte matriz Dispersa\n";
             cout << "  3. Reporte Activos Disponibles de: un Departamento\n";
             cout << "  4. Reporte Activos Disponibles de: una Empresa\n";
-            cout << "  5. Reporte Transacciones\n";
+            cout << "  5. Reporte Transacciones\n";//CIRCULAR
             cout << "  6. Reporte activos de un usuario\n";
-            cout << "7. Activos rentados por un usuario\n";
+            cout << "7. Activos rentados por un usuario\n";//CIRCULAR (cuando se retorne un articulo se buscara y se editara el estado a DEVUELTO, asi se ve mejor el grafico)
             cout << "8. Ordenar Transacciones\n";
             cout << "9. Salir\n\n";
             cout << "Opcion:";
@@ -129,7 +133,18 @@ while(true){
                     break;
                 
                 case 6:
-                    //reporte
+                    cout << "\n\n ~ -=-=-=-=-=-= ( Reporte activos Usuario ) -=-=-=-=-= ~\n";
+                    cout << "Nombre Usuario: ";
+                    cin >> nomUsuRepo;
+                    cout << "Departamento: ";
+                    cin >> depRepo;
+                    cout << "Empresa: ";
+                    cin >> empresaRepo;
+                    //Se verifica si el usuario existe
+                    m.printActivos(depRepo, empresaRepo, nomUsuRepo, "GRAPH");
+                    command01 = "start msedge file:/C:/Users/samal/Desktop/proyecto1_EDD_2S_Diciembre/Proyecto1/AVL.png"; //msedge indica que se abrira desde Navegador edge
+                    system(command01);
+                    cout<<"PASO....\n";
                     break;
 
                 case 7:
@@ -191,7 +206,7 @@ while(true){
                 case 2:
                     cout << "\n---------- >>> Eliminar Activo <<< ----------\n";
                     //Muestra en lista ID y Nombre de activos pertenecientes a USUARIO logeado, antes de ELIMINAR
-                    m.printActivos(LOG_departamento, LOG_empresa, LOG_usuario);
+                    m.printActivos(LOG_departamento, LOG_empresa, LOG_usuario, "PRINT");
 
                     cout <<"ID de Activo a Eliminar: ";
                     cin >> ID_eliminar;
@@ -204,7 +219,7 @@ while(true){
                 case 3:
                     cout << "\n---------- >>> Editar Activo <<< ----------\n";
                     //Muestra lista: ID y Nombre de activos pertenecientes USUARIO logeado, antes de EDITAR
-                    m.printActivos(LOG_departamento, LOG_empresa, LOG_usuario);
+                    m.printActivos(LOG_departamento, LOG_empresa, LOG_usuario, "PRINT");
 
                     cout <<"ID de Activo a Editar: ";
                     cin >> ID_editar;

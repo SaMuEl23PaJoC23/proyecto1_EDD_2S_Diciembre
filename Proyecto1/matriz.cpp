@@ -183,7 +183,7 @@ Nodo* Matriz::buscarFila(string j_empresa){
     return nullptr;
 }
 //-------------------------------------------------------------------
-Nodo* Matriz:: insertarEncabezadoColumna(string i_dep){
+Nodo* Matriz::insertarEncabezadoColumna(string i_dep){
     Nodo *nuevoEncabezadoColumna = new Nodo(cantI, -1, i_dep, "admin_j");
 
     Nodo *temp = this->raiz;
@@ -198,7 +198,7 @@ Nodo* Matriz:: insertarEncabezadoColumna(string i_dep){
     return nuevoEncabezadoColumna;
 }
 //-------------------------------------------------------------------
-Nodo* Matriz:: insertarEncabezadoFila(string j_empresa){
+Nodo* Matriz::insertarEncabezadoFila(string j_empresa){
     Nodo *nuevoEncabezadoFila = new Nodo(-1, cantJ,"admin_i", j_empresa);
 
     Nodo *temp = this->raiz;
@@ -280,7 +280,7 @@ void Matriz::graphMatriz(){
     string dec_nodo;
     string conexion;
 
-    outfile << "digraph G {" << endl;
+    outfile << "digraph Matriz {" << endl;
     outfile << "    node[shape=\"box\"] \n" << endl;
     
     while(aux_fila != nullptr){
@@ -388,7 +388,7 @@ void Matriz::insertActivo(string i_dep, string j_empresa, string nomUsu, string 
     }
 }
 //-------------------------------------------------------------------
-void Matriz::printActivos(string i_dep, string j_empresa, string nomUsu){
+void Matriz::printActivos(string i_dep, string j_empresa, string nomUsu, string graph_print){
     Nodo *encabezadoFila = this->raiz;
 
     while(encabezadoFila != nullptr){
@@ -401,8 +401,9 @@ void Matriz::printActivos(string i_dep, string j_empresa, string nomUsu){
                     Nodo * auxColumna = columna;
                     while (auxColumna != nullptr){//Se recorrera la lista hacia atras, para verificar si el nombre de USUARIO existe
                         if(auxColumna->getNomUsu() == nomUsu){
-                            auxColumna->getAVL()->PrintAVL();
-                            auxColumna->getAVL()->graphAVL();
+                            if(graph_print == "GRAPH"){
+                                auxColumna->getAVL()->graphAVL(nomUsu);//Crea reporte de AVL usuario
+                            }else{auxColumna->getAVL()->PrintAVL();}//imprime datos de AVL usuario
                             return;
                         }
                         auxColumna = auxColumna->getAtras();

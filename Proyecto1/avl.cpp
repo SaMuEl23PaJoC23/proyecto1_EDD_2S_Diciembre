@@ -25,12 +25,13 @@ void AVL::delNodoAVL(string ID_activo){
     this->raizAVL = delNodoAVL(this->raizAVL, ID_activo);
 }
 //-------------------------------------------------------------------
-void AVL::graphAVL(){
+void AVL::graphAVL(string nomUsu){
     ofstream outfile ("AVL.dot");
-    outfile <<" digraph G{" <<endl;
+    outfile <<" digraph AVLTree{" <<endl;
+    outfile <<"root [shape=box, label=\""+ nomUsu +"\"];"<<endl;
 
     if(raizAVL != nullptr){
-        graphAVL(raizAVL, outfile);//Aca se crea el dot
+        graphAVL(raizAVL, outfile, true);//Aca se crea el dot
     }
 
     outfile << "}" << endl;
@@ -194,19 +195,26 @@ NodoAVL* AVL::delNodoAVL(NodoAVL* raizAVL, string ID_activo){
     return raizAVL; 
 }
 //-------------------------------------------------------------------
-void AVL::graphAVL(NodoAVL* raizAVL, ofstream &f){
+void AVL::graphAVL(NodoAVL* raizAVL, ofstream &f, bool graf_raiz){
     if(raizAVL != nullptr){
         stringstream oss;//se crea una variable de tipo flujo de datos de strings
         oss << raizAVL;// Se asigna la direccion de memoria a la variable de flujo de strings
         string nombre = oss.str();//Se usa la direccion de memoria (puntero), para dar nombre a los nodos del grafo
 
-        f << "NodoAVL" + nombre + "[label = \""+ raizAVL->getNomActivo() + "\"]" << endl;
+        if(graf_raiz){
+            f <<"root->NodoAVL" + nombre+";" << endl;
+            graf_raiz = false;
+        }
+        if(raizAVL->getDisponible()){
+            f << "NodoAVL" + nombre + "[shape=circle, label = \""+ raizAVL->getNomActivo() + "\", style=filled, fillcolor=lightgreen, width=1.0, height=1.0, fixedsize=true];" << endl;
+        }else{f << "NodoAVL" + nombre + "[shape=circle, label = \""+ raizAVL->getNomActivo() + "\", style=filled, fillcolor=red, width=1.0, height=1.0, fixedsize=true];" << endl;}
+            
 
         if(raizAVL->getIzqAVL() != nullptr){//Se crea enlace de nodo hacia la IZQUIERDA
             oss.str("");//Se limpia la variable de flujo de datos
             oss << raizAVL->getIzqAVL();
             string izquierda = oss.str();
-            f <<"NodoAVL" << nombre + "->NodoAVL" + izquierda << endl;
+            f <<"NodoAVL" << nombre + "->NodoAVL" + izquierda + ";" << endl;
             //enalce: NodoAVL<nombre_raiz> -> NodoAVL<izquierda>;
         }
 
@@ -214,12 +222,12 @@ void AVL::graphAVL(NodoAVL* raizAVL, ofstream &f){
             oss.str("");
             oss << raizAVL->getDrchaAVL();
             string derecha = oss.str();
-            f << "NodoAVL" << nombre + "->NodoAVL" + derecha << endl;
+            f << "NodoAVL" << nombre + "->NodoAVL" + derecha + ";" << endl;
             //enlace: NodoAVL<nombre_raiz> -> NodoAVL<derecha>;
         }
 
-        graphAVL(raizAVL->getIzqAVL(), f);
-        graphAVL(raizAVL->getDrchaAVL(), f);
+        graphAVL(raizAVL->getIzqAVL(), f, graf_raiz);
+        graphAVL(raizAVL->getDrchaAVL(), f, graf_raiz);
     }
 }
 //-------------------------------------------------------------------
